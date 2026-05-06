@@ -7,3 +7,4 @@ elevenlabs
 Flask-Migrate
 openai
 python-dotenv
+gunicorn
