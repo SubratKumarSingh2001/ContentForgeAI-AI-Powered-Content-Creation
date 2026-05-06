@@ -1,0 +1,95 @@
+{% extends "baseAuth.html" %} 
+
+{% block title %} SignIn-ContentForgeAI {% endblock %}
+
+{% block heading%} Sign in {% endblock %}
+
+{% block content %}
+<!-- SignIn-Form -->
+<div class="pb-4">
+  {% with messages = get_flashed_messages(with_categories=True)  %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'success' %}
+          <div class="mt-6 mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-400 text-green-700 text-sm max-w-md w-full">
+            {{ message }}
+          </div>
+        {% elif category == 'error' %}
+          <div class="mt-6 mb-4 px-4 py-3 rounded-lg bg-red-100 border border-red-400 text-red-700 text-sm max-w-md w-full">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <div
+    class="bg-white rounded-xl sm:px-6 px-4 py-8 max-w-md w-full h-max [box-shadow:0_2px_10px_-3px_rgba(6,81,237,0.3)] max-lg:mx-auto "
+  >
+    <form action="{{ url_for('signin') }}" method="POST">
+      <div class="mb-8">
+        <h2 class="text-3xl font-semibold text-slate-900">Sign in</h2>
+        <p class="text-slate-600 text-[15px] mt-6 leading-relaxed">Welcome back! Sign in to access your account and continue your journey.</p>
+      </div>
+      <div class="space-y-6">
+        <div>
+          <label class="text-slate-700 text-sm font-medium mb-2 block"
+            >User name</label
+          >
+          <div class="relative flex items-center">
+            <input
+              name="username"
+              type="text"
+              required
+              class="w-full text-sm text-slate-900 border border-slate-300 pr-8 px-4 py-3 rounded-md outline-blue-600"
+              placeholder="Enter user name"
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#bbb"
+              stroke="#bbb"
+              class="w-[18px] h-[18px] absolute right-4"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
+              <path
+                d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
+                data-original="#000000"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <label class="text-slate-900 text-sm font-medium mb-2 block"
+            >Password</label
+          >
+          <div class="relative flex items-center">
+            <input
+              name="password"
+              type="password"
+              required
+              class="w-full text-sm text-slate-900 border border-slate-300 pr-8 px-4 py-3 rounded-md outline-blue-600"
+              placeholder="Enter password"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mt-8">
+        <button
+          type="submit"
+          class="w-full shadow-xl py-2 px-4 text-[15px] font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer"
+        >
+          Sign in
+        </button>
+      </div>
+      <p class="text-sm mt-6 text-center text-slate-600">
+        Don't have an account
+        <a
+          href="{{url_for('signup')}}"
+          class="text-blue-600 font-medium hover:underline ml-1 whitespace-nowrap"
+          >Register here</a
+        >
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}

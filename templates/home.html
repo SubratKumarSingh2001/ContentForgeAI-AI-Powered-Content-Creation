@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContentForgeAI-AI Content Creator</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/output.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Nav-Section and Hero-Section -->
+    <section class="flex flex-col items-center">
+      <!-- nav-section -->
+      <nav class="flex flex-col items-center w-full">
+        <div
+          class="flex items-center justify-between p-4 md:px-16 lg:px-24 xl:px-32 md:py-4 w-full"
+        >
+          <!-- website-logo -->
+          <a href="{{ url_for('home')}}">
+            <svg
+              width="280"
+              height="55"
+              viewBox="0 0 280 55"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Layered Content Sheets -->
+              <rect
+                x="6"
+                y="12"
+                width="28"
+                height="28"
+                rx="6"
+                stroke="#050040"
+                stroke-width="2.5"
+              />
+
+              <rect
+                x="12"
+                y="8"
+                width="28"
+                height="28"
+                rx="6"
+                stroke="#050040"
+                stroke-width="2.5"
+              />
+
+              <!-- Forge Spark (AI Core) -->
+              <path d="M26 16 L30 24 L22 24 Z" fill="#050040" />
+
+              <circle cx="26" cy="28" r="2.5" fill="#050040" />
+
+              <!-- Brand Name -->
+              <text
+                x="45"
+                y="33"
+                font-family="Poppins, sans-serif"
+                font-size="22"
+                font-weight="600"
+                fill="#050040"
+              >
+                ContentForgeAI
+              </text>
+            </svg>
+          </a>
+          <div
+            id="menu"
+            class="max-md:w-full max-md:fixed max-md:top-0 max-md:z-10 max-md:left-0 max-md:transition-all max-md:duration-300 max-md:overflow-hidden max-md:h-screen max-md:bg-white/25 max-md:backdrop-blur max-md:flex-col max-md:justify-center flex items-center gap-8 text-sm mr-16"
+          >
+            <a
+              href="#about-section"
+              class="text-[#050040] hover:text-[#050040]/70 font-poppins"
+              >About</a
+            >
+            <a
+              href="#feature-section"
+              class="text-[#050040] hover:text-[#050040]/70 font-poppins"
+              >Features</a
+            >
+            <a
+              href="#guide-section"
+              class="text-[#050040] hover:text-[#050040]/70 font-poppins"
+              >Guide</a
+            >
+            <div class="md:hidden flex flex-col gap-4 mt-2 items-center">
+              {% if 'user_id' in session %}
+
+              <a
+                href="{{ url_for('dashboard') }}"
+                class="w-full text-center px-4 py-2 border border-indigo-600 rounded-md"
+              >
+                Dashboard
+              </a>
+
+              <a
+                href="{{ url_for('signout') }}"
+                class="w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-md"
+              >
+                Sign Out
+              </a>
+
+              {% else %}
+
+              <a
+                href="{{ url_for('signin') }}"
+                class="w-full text-center px-4 py-2 border border-indigo-600 rounded-md"
+              >
+                Sign in
+              </a>
+
+              <a
+                href="{{ url_for('signup') }}"
+                class="w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-md"
+              >
+                Get started
+              </a>
+
+              {% endif %}
+            </div>
+
+            <button
+              id="close-menu"
+              class="md:hidden bg-zinc-900 hover:bg-zinc-800 text-white p-2 rounded-md aspect-square font-medium transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden md:flex items-center gap-4">
+            {% if 'user_id' in session %}
+            <a
+              href="{{ url_for('dashboard')}}"
+              class="active:scale-95 hover:bg-indigo-50/50 transition px-4 py-2 border border-indigo-600 rounded-md text-slate-800 cursor-pointer font-poppins"
+            >
+              Dashboard
+            </a>
+            <a
+              href="{{url_for('signout')}}"
+              class="text-white px-4 py-2 bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded-md cursor-pointer font-poppins"
+            >
+              Sign Out
+            </a>
+            {% else %}
+            <a
+              href="{{ url_for('signin')}}"
+              class="active:scale-95 hover:bg-indigo-50/50 transition px-4 py-2 border border-indigo-600 rounded-md text-slate-800 cursor-pointer font-poppins"
+            >
+              Sign in
+            </a>
+            <a
+              href="{{url_for('signup')}}"
+              class="text-white px-4 py-2 bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded-md cursor-pointer font-poppins"
+            >
+              Get started
+            </a>
+            {% endif %}
+          </div>
+          <button
+            id="open-menu"
+            class="md:hidden bg-zinc-900 hover:bg-zinc-800 text-white p-2 rounded-md aspect-square font-medium transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 12h16" />
+              <path d="M4 18h16" />
+              <path d="M4 6h16" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Hero-Section-Banner -->
+      <div
+        class="flex items-center gap-2 bg-indigo-100 rounded-full p-1 pr-3 text-sm mt-20"
+      >
+        <span class="bg-indigo-600 text-white text-xs px-3 py-1 rounded-full"
+          >NEW</span
+        >
+        <p class="flex items-center gap-2 text-indigo-600 text-sm">
+          Create Content in Seconds
+        </p>
+      </div>
+
+      <!-- Hero-Section-Heading -->
+      <h1
+        class="font-poppins text-center text-slate-800 text-5xl md:text-4xl/16 font-bold max-w-3xl leading-tight bg-clip-text my-2.5 px-4"
+      >
+        AI
+        <span
+          class="bg-gradient-to-r from-indigo-600 to-pink-400 bg-clip-text text-transparent"
+          >Engine</span
+        >
+        for Modern Content Creators
+      </h1>
+
+      <!-- Hero-Section-Para -->
+      <p class="font-poppins text-center text-base text-gray-600 max-w-md px-4">
+        Content that never slows you down. AI that helps you create more,
+        effortlessly.
+      </p>
+
+      <!-- Hero-Section-Links -->
+      {% if 'user_id' not in session %}
+      <a
+        href="{{url_for('signup')}}"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md cursor-pointer font-poppins mt-5 w-[9rem] text-center"
+      >
+        Get Started
+      </a>
+      {% endif %}
+
+      <!-- Hero-Section-Image -->
+      <div class="relative w-full max-w-4xl px-4">
+        <div
+          class="pointer-events-none absolute -top-22 left-1/2 -translate-x-1/2 w-full h-full bg-[#d7bef4] blur-[100px] opacity-70 z-0"
+        ></div>
+        <img
+          class="relative z-1 w-full object-cover object-top"
+          src="./static/images/hero-image.png"
+          alt="dashboard"
+        />
+      </div>
+    </section>
+
+    <!-- About-Section  -->
+    <section class="mt-24 font-poppins" id="about-section">
+      <!-- About-Section-Heading -->
+      <div>
+        <h1 class="font-poppins text-3xl font-semibold text-center mx-auto">
+          About
+          <span
+            class="bg-gradient-to-r from-indigo-600 to-pink-400 bg-clip-text text-transparent"
+            >ContentForgeAI</span
+          >
+        </h1>
+        <p class="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
+          A quick overview of how our AI tools help you create content faster
+          and smarter.
+        </p>
+      </div>
+      <!-- About-Main-Section-->
+      <div
+        class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 px-4 md:px-0 py-10"
+      >
+        <!-- About-image-section  -->
+        <div class="relative flex justify-center items-center">
+          <!-- Blur Background -->
+          <div
+            class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+          ></div>
+          <!-- image -->
+          <img
+            class="max-w-sm w-full rounded-xl h-auto relative z-10"
+            src="./static/images/feature-image.png"
+            alt="feature-section-image"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- About-Content-Section -->
+        <div>
+          <!-- About-Content-Heading -->
+          <h1 class="text-3xl font-semibold">What Your Get</h1>
+          <p class="text-sm text-slate-500 mt-2">
+            Discover AI-powered tools that help you generate content faster and
+            with less effort.
+          </p>
+
+          <!-- All-Features -->
+          <div class="flex flex-col gap-4 mt-6">
+            <!-- feature-1 -->
+            <div class="flex items-center gap-4">
+              <div
+                class="size-9 p-1 bg-indigo-50 border border-indigo-200 rounded"
+              >
+                <img
+                  src="./static/images/reel-icon.png"
+                  alt="icon1"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-600">
+                  Short Reel Generator
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Create short reels that instantly grab attention
+                </p>
+              </div>
+            </div>
+            <!-- feature-2 -->
+            <div class="flex items-center gap-4">
+              <div
+                class="size-9 p-1 bg-indigo-50 border border-indigo-200 rounded"
+              >
+                <img
+                  src="./static/images/blog-icon.png"
+                  alt="icon2"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-600">
+                  Blog Generator
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Write high-quality blogs optimized for better reach.
+                </p>
+              </div>
+            </div>
+            <!-- feature-3-->
+            <div class="flex items-center gap-4">
+              <div
+                class="size-9 p-1 bg-indigo-50 border border-indigo-200 rounded"
+              >
+                <img
+                  src="./static/images/captions-icon.png"
+                  alt="icon3"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-600">
+                  Captions Generator
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Generate catchy captions that boost post engagement
+                </p>
+              </div>
+            </div>
+            <!-- feature-4-->
+            <div class="flex items-center gap-4">
+              <div
+                class="size-9 p-1 bg-indigo-50 border border-indigo-200 rounded"
+              >
+                <img
+                  src="./static/images/hashtag-icon.png"
+                  alt="icon4"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-600">
+                  Hashtag Generator
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Find trending hashtags to grow your content faster
+                </p>
+              </div>
+            </div>
+            <!-- feature-5-->
+            <div class="flex items-center gap-4">
+              <div
+                class="size-9 p-1 bg-indigo-50 border border-indigo-200 rounded"
+              >
+                <img
+                  src="./static/images/script-icon.png"
+                  alt="icon5"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-600">
+                  Video Script Generator
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Create video scripts that keep viewers watching longer
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature-Section -->
+    <section class="mt-24 font-poppins" id="feature-section">
+      <!-- Feature-HeadingAndSubHead -->
+      <div>
+        <h1 class="text-3xl font-semibold text-center mx-auto">
+          Powerful
+          <span
+            class="bg-gradient-to-r from-indigo-600 to-pink-400 bg-clip-text text-transparent"
+            >Features</span
+          >
+        </h1>
+        <p class="text-sm text-slate-500 text-center mt-4 max-w-md mx-auto">
+          Everything you need to create, manage, and grow your content faster
+          and smarter.
+        </p>
+      </div>
+
+      <div
+        class="flex items-center justify-center flex-wrap gap-6 mt-20 px-4 md:px-0"
+      >
+        <!-- Detailed-Featured-1 -->
+        <div
+          class="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-violet-200 gap-6 max-w-sm shadow-[0_0_30px_rgba(168,85,247,0.25)] hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(168,85,247,0.35)] transition-all duration-300 ease-out cursor-pointer"
+        >
+          <!-- Icon1 -->
+          <div class="p-6 aspect-square bg-violet-100 rounded-full">
+            <img
+              src="./static/images/feature-icon1.svg"
+              alt="icon1"
+              loading="lazy"
+              width="40px"
+              height="40px"
+            />
+          </div>
+          <!-- Feature-1-content -->
+          <div class="space-y-2">
+            <h3 class="text-base font-semibold text-slate-700">
+              AI Short Reel Generator
+            </h3>
+            <p class="text-sm text-slate-600">
+              Upload your images and provide some text, and let AI automatically
+              creates a short reel by combining them into a ready-to-share
+              video.
+            </p>
+          </div>
+        </div>
+        <!-- Detailed-Featured-2 -->
+        <div
+          class="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-green-200 gap-6 max-w-sm shadow-[0_0_30px_rgba(74,222,128,0.25)] hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(74,222,128,0.35)] transition-all duration-300 ease-out cursor-pointer"
+        >
+          <!-- Icon-2 -->
+          <div class="p-6 aspect-square bg-green-100 rounded-full">
+            <img
+              src="./static/images/feature-icon2.svg"
+              alt=""
+              loading="lazy"
+              width="35px"
+              height="35px"
+            />
+          </div>
+          <!-- Feature-2-content -->
+          <div class="space-y-2">
+            <h3 class="text-base font-semibold text-slate-700">
+              AI Blog Generator
+            </h3>
+            <p class="text-sm text-slate-600">
+              Give the AI a topic or concept, and it will create organized,
+              readable blog content designed to speed up your writing workflow.
+            </p>
+          </div>
+        </div>
+        <!-- Detailed-Featured-3 -->
+        <div
+          class="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-orange-200 gap-6 max-w-sm shadow-[0_0_30px_rgba(251,146,60,0.25)] hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(251,146,60,0.35)] transition-all duration-300 ease-out cursor-pointer"
+        >
+          <!-- Icon-3 -->
+          <div class="p-6 aspect-square bg-orange-100 rounded-full">
+            <img
+              src="./static/images/feature-icon3.svg"
+              alt="icon3"
+              loading="lazy"
+              width="37px"
+              height="37px"
+            />
+          </div>
+          <!-- Feature-3-Content -->
+          <div class="space-y-2">
+            <h3 class="text-base font-semibold text-slate-700">
+              AI Captions Generator
+            </h3>
+            <p class="text-sm text-slate-600">
+              Generate relevant captions for your posts instantly using AI to
+              match your content tone and improve engagement.
+            </p>
+          </div>
+        </div>
+        <!-- Detailed-Featured-4 -->
+        <div
+          class="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-red-200 gap-6 max-w-sm shadow-[0_0_25px_rgba(251,113,133,0.35)] hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(251,113,133,0.35)] transition-all duration-300 ease-out cursor-pointer"
+        >
+          <!-- Icon-4 -->
+          <div class="p-6 aspect-square bg-red-100 rounded-full">
+            <img
+              src="./static/images/feature-icon4.svg"
+              alt="icon4"
+              loading="lazy"
+              width="40px"
+              height="40px"
+            />
+          </div>
+          <!-- Feature-4-content -->
+          <div class="space-y-2">
+            <h3 class="text-base font-semibold text-slate-700">
+              AI Hashtag Generator
+            </h3>
+            <p class="text-sm text-slate-600">
+              AI analyzes your content and suggests relevant hashtags to help
+              improve reach and make your posts more discoverable.
+            </p>
+          </div>
+        </div>
+        <!-- Detailed-Featured-5 -->
+        <div
+          class="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-teal-200 gap-6 max-w-sm shadow-[0_0_25px_rgba(45,212,191,0.35)] hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(45,212,191,0.35)] transition-all duration-300 ease-out cursor-pointer"
+        >
+          <div class="p-6 aspect-square bg-teal-100 rounded-full">
+            <img
+              src="./static/images/feature-icon5.svg"
+              alt="icon5"
+              loading="lazy"
+              width="33px"
+              height="33px"
+            />
+          </div>
+          <div class="space-y-2">
+            <h3 class="text-base font-semibold text-slate-700">
+              AI Video Script Generator
+            </h3>
+            <p class="text-sm text-slate-600">
+              Provide your topic or idea, and the AI creates a clear, structured
+              video script to guide your recording process.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Steps-Section -->
+    <section class="font-poppins mt-36" id="guide-section">
+      <!-- Steps heading and sub heading -->
+      <div>
+        <h1 class="text-3xl font-semibold text-center mx-auto">
+          How It
+          <span
+            class="bg-gradient-to-r from-indigo-600 to-pink-400 bg-clip-text text-transparent"
+            >Works</span
+          >
+        </h1>
+        <p class="text-sm text-slate-500 text-center mt-4 max-w-md mx-auto">
+          Follow simple step-by-step workflows to create reels, blogs, captions,
+          hashtags and video scripts quickly and effortlessly.
+        </p>
+      </div>
+      <!-- Short-Reel-Generator -->
+      <div class="max-w-6xl mx-auto my-20 pl-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Create AI Ready Reels In Minutes
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Upload your images or clips, provide your text which will be
+              converted into audio, and let AI automatically generate a
+              ready-to-share short reel optimized for engagement.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">1. </span>
+                <div>
+                  <h4 class="font-semibold font">Step 1: Upload Content</h4>
+                  <p class="text-gray-600 text-sm">
+                    Add your photos, or media clips to start creating your reel
+                    instantly.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">2. </span>
+                <div>
+                  <h4 class="font-semibold">Step 2: Provide Text</h4>
+                  <p class="text-gray-600 text-sm">
+                    Provide the text which will be automatically converted into
+                    the audio and added into the short reel.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">3. </span>
+                <div>
+                  <h4 class="font-semibold">Step 3: Generate and Download</h4>
+                  <p class="text-gray-600 text-sm">
+                    Click on generate button and let AI arrange everything
+                    automatically and provide downloadable reels.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="h-80 bg-gradient-purple rounded-xl glow-effect flex items-center justify-center"
+          >
+            <div class="relative flex justify-center items-center">
+              <!-- Blur Background -->
+              <div
+                class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+              ></div>
+              <!-- image -->
+              <img
+                class="max-w-sm rounded-xl relative z-10 w-full h-[300px]"
+                src="./static/images/shortreel.png"
+                alt="feature-section-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Blog-Generator -->
+      <div class="max-w-6xl mx-auto my-20 pl-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div
+            class="h-80 gradient-orange rounded-xl glow-effect flex items-center justify-center"
+          >
+            <div class="relative flex justify-center items-center">
+              <!-- Blur Background -->
+              <div
+                class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+              ></div>
+              <!-- image -->
+              <img
+                class="max-w-sm rounded-xl relative z-10 w-full h-[300px]"
+                src="./static/images/blogpic.png"
+                alt="feature-section-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Create AI Ready Blog In Minutes
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Turn your ideas into well-structured, readable blog posts with AI.
+              Generate content that’s optimized for search engines and ready to
+              publish or edit.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >1.
+                </span>
+                <div>
+                  <h4 class="font-semibold">
+                    Step 1: Enter Your Topic and Keywords
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    Provide a topic, keyword, or idea and let the AI understand
+                    your content goal.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >2.
+                </span>
+                <div>
+                  <h4 class="font-semibold">
+                    Step 2: Generate Structured Content
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    AI creates a clear blog outline with headings, flow, and
+                    engaging paragraphs.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >3.
+                </span>
+                <div>
+                  <h4 class="font-semibold">Step 3: Optimize</h4>
+                  <p class="text-gray-600 text-sm">
+                    Refine the output, adjust tone, and ready to publish
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Captions Generator  -->
+      <div class="max-w-6xl mx-auto my-20 pl-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Generate Captions in Minutes
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Generate engaging, ready-to-use captions that match your content
+              style and help your posts connect with the right audience.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">1. </span>
+                <div>
+                  <h4 class="font-semibold font">
+                    Step 1: Add your Topic and Style
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    Enter your idea or photo context and also pick the tone you
+                    want — casual, professional, or creative.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">2. </span>
+                <div>
+                  <h4 class="font-semibold">Step 2: Generate & Use</h4>
+                  <p class="text-gray-600 text-sm">
+                    Get captions instantly by clicking on Generate button and
+                    post or edit as you like.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="h-80 bg-gradient-purple rounded-xl glow-effect flex items-center justify-center"
+          >
+            <div class="relative flex justify-center items-center">
+              <!-- Blur Background -->
+              <div
+                class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+              ></div>
+              <!-- image -->
+              <img
+                class="max-w-sm rounded-xl relative z-10 w-full h-[300px]"
+                src="./static/images/captionspic.png"
+                alt="feature-section-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hashtag Generator  -->
+      <div class="max-w-6xl mx-auto my-20 pl-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div
+            class="h-80 gradient-orange rounded-xl glow-effect flex items-center justify-center"
+          >
+            <div class="relative flex justify-center items-center">
+              <!-- Blur Background -->
+              <div
+                class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+              ></div>
+              <!-- image -->
+              <img
+                class="max-w-sm rounded-xl relative z-10 w-full h-[300px]"
+                src="./static/images/hashtagpic.png"
+                alt="feature-section-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Generate Hashtags in Minutes
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Create relevant and engaging hashtags instantly to help your
+              content reach more people and improve discoverability.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >1.
+                </span>
+                <div>
+                  <h4 class="font-semibold">
+                    Step 1: Enter Your Topic and Keywords
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    Provide your post idea, keyword, so the AI understands your
+                    content.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >2.
+                </span>
+                <div>
+                  <h4 class="font-semibold">
+                    Step 2: Generate Relevant Hashtags
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    AI creates smart, targeted hashtags based on your content
+                    and audience.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-md"
+                  >3.
+                </span>
+                <div>
+                  <h4 class="font-semibold">Step 3: Copy & Use Instantly</h4>
+                  <p class="text-gray-600 text-sm">
+                    Choose the best hashtags and add them directly to your post.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Video Scripts Generator  -->
+      <div class="max-w-6xl mx-auto my-20 pl-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Create AI Ready Video Scripts In Minutes
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Generate engaging, ready-to-use video scripts designed for
+              short-form content and help your videos keep viewers watching.
+            </p>
+
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">1. </span>
+                <div>
+                  <h4 class="font-semibold font">
+                    Step 1: Add Your Topic and Style
+                  </h4>
+                  <p class="text-gray-600 text-sm">
+                    Enter your idea or niche and choose the tone you want —
+                    educational, storytelling, promotional, or creative.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-purple-600 text-2xl mt-1">2. </span>
+                <div>
+                  <h4 class="font-semibold">Step 2: Generate & Use</h4>
+                  <p class="text-gray-600 text-sm">
+                    Click generate to instantly get a structured video script
+                    that you can record, edit, or use directly.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="h-80 bg-gradient-purple rounded-xl glow-effect flex items-center justify-center"
+          >
+            <div class="relative flex justify-center items-center">
+              <!-- Blur Background -->
+              <div
+                class="absolute w-72 h-72 bg-[#d7bef4] blur-[100px] rounded-full -z-10"
+              ></div>
+              <!-- image -->
+              <img
+                class="max-w-sm rounded-xl relative z-10 w-full h-[300px]"
+                src="./static/images/videoscripts.png"
+                alt="feature-section-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA-Section -->
+    <section class="mt-32">
+      <div
+        class="max-w-5xl mx-2 md:mx-auto p-px rounded-2xl bg-gradient-to-r from-purple-600/20 to-blue-500/30 font-poppins h-[100px]"
+      >
+        <div
+          class="flex flex-col items-center justify-center text-center py-12 md:py-16 rounded-[15px] bg-gradient-to-r from-[#F3EAFF] to-[#E1EFFF]"
+        >
+          <div
+            class="flex items-center justify-center bg-white px-3 py-1.5 shadow gap-1 rounded-full text-xs"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.503 10.06a3.3 3.3 0 0 0-.88 1.809 4.7 4.7 0 0 0-.067 1.03v.545h.75q.416-.002.825-.075a3.24 3.24 0 0 0 1.81-.882 1.65 1.65 0 0 0-.131-2.325 1.65 1.65 0 0 0-2.307-.103m1.632 1.621a2.1 2.1 0 0 1-1.182.563h-.206v-.207a2.1 2.1 0 0 1 .563-1.18.34.34 0 0 1 .225-.076.63.63 0 0 1 .44.206.506.506 0 0 1 .16.694m9.6-9.581a.853.853 0 0 0-.835-.835A8.2 8.2 0 0 0 6.816 3.28L5.288 5.062l-2.25-.468a.94.94 0 0 0-.863.253l-.637.637a.94.94 0 0 0-.263.76.94.94 0 0 0 .422.693l1.931 1.238.122.075 3 3.047.075.075 1.238 1.931a.94.94 0 0 0 .693.422h.104a.94.94 0 0 0 .656-.272l.637-.637a.94.94 0 0 0 .253-.863l-.468-2.24 1.725-1.482A8.24 8.24 0 0 0 13.735 2.1M2.915 5.765l1.238.263-.6.703-.937-.628zm5.982 6.657-.628-.938.703-.6.263 1.238zm1.978-5.053-3.45 2.943-2.737-2.737 2.943-3.45a6.98 6.98 0 0 1 4.932-1.688 7 7 0 0 1-1.688 4.932"
+                fill="#5C67FF"
+              />
+              <path
+                d="M10.434 6.216a1.116 1.116 0 0 0-.056-1.594 1.086 1.086 0 0 0-1.918.742 1.1 1.1 0 0 0 .38.786 1.125 1.125 0 0 0 1.594.066"
+                fill="#5C67FF"
+              />
+            </svg>
+            <span
+              class="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent font-medium"
+              >Create Content 10x Faster with AI</span
+            >
+          </div>
+          <h2 class="text-2xl md:text-4xl font-medium mt-5 leading-[1.2]">
+            Start Creating Smarter Content<br />
+            <span
+              class="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"
+              >Today With</span
+            >
+            Powerful AI Tools.
+          </h2>
+          <p class="text-slate-500 mt-3 max-w-lg max-md:text-sm text-sm">
+            Create reels, blogs, captions, hashtags, and scripts effortlessly
+            with AI tools designed to help you save time, stay consistent, and
+            publish better content faster.
+          </p>
+          {% if 'user_id' not in session %}
+          <a
+            href="{{url_for('signup')}}"
+            type="button"
+            class="bg-gradient-to-r from-purple-600 to-blue-500 text-white text-sm px-5 py-2.5 rounded-xl font-medium mt-4 hover:scale-105 active:scale-95 transition-all duration-300"
+          >
+            Get Started Today
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer-Section -->
+    <footer
+      class="flex flex-col items-center justify-center w-full py-20 bg-gradient-to-b from-[#5524B7] to-[#380B60] text-white/70 mt-72 md:mt-96"
+    >
+      <!-- website-logo -->
+      <a href="https://prebuiltui.com" class="ml-12">
+        <svg
+          width="280"
+          height="55"
+          viewBox="0 0 280 55"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Layered Content Sheets -->
+          <rect
+            x="6"
+            y="12"
+            width="28"
+            height="28"
+            rx="6"
+            stroke="#fff"
+            stroke-width="2.5"
+          />
+
+          <rect
+            x="12"
+            y="8"
+            width="28"
+            height="28"
+            rx="6"
+            stroke="#fff"
+            stroke-width="2.5"
+          />
+
+          <!-- Forge Spark (AI Core) -->
+          <path d="M26 16 L30 24 L22 24 Z" fill="#fff" />
+
+          <circle cx="26" cy="28" r="2.5" fill="#fff" />
+
+          <!-- Brand Name -->
+          <text
+            x="45"
+            y="33"
+            font-family="Poppins, sans-serif"
+            font-size="22"
+            font-weight="600"
+            fill="#fff"
+          >
+            ContentForgeAI
+          </text>
+        </svg>
+      </a>
+      <p class="mt-4 text-center">
+        Copyright © 2026 ContentForgeAI. All rights reserved.
+      </p>
+      <div class="flex items-center gap-4 mt-5">
+        <!-- Instagram Profile-->
+        <a
+          href="https://www.instagram.com/voyager_xoxo?igsh=MWlrdzBtMGdyamZrZw=="
+          class="hover:-translate-y-0.5 transition-all duration-300"
+          target="_blank"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5"
+              stroke="#fff"
+              stroke-opacity=".5"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16 11.37a4 4 0 1 1-7.914 1.173A4 4 0 0 1 16 11.37m1.5-4.87h.01"
+              stroke="#fff"
+              stroke-opacity=".5"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+        <!-- LinkedIn Profile-->
+        <a
+          href="https://www.linkedin.com/in/subrat-kumar-singh-597973207/"
+          class="hover:-translate-y-0.5 transition-all duration-300"
+          target="_blank"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6M6 9H2v12h4zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
+              stroke="#fff"
+              stroke-opacity=".5"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+        <!-- GitHub Profile -->
+        <a
+          href="https://github.com/SubratKumarSingh2001"
+          class="hover:-translate-y-0.5 transition-all duration-300"
+          target="_blank"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"
+              stroke="#fff"
+              stroke-opacity=".5"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M9 18c-4.51 2-5-2-7-2"
+              stroke="#fff"
+              stroke-opacity=".5"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+    </footer>
+
+    <script src="./static/js/home.js"></script>
+  </body>
+</html>

@@ -1,0 +1,359 @@
+<!-- It tells to use the layout of the base.html extend that base.html webpage in this  -->
+{% extends "baseDashboard.html" %} {% block title %} Dashboard {% endblock %}
+<!-- Tells to fill the base.html block content with this all content  -->
+{% block content %}
+<main class="flex-1 p-6 lg:p-8 max-w-7xl mx-auto w-full">
+  <!-- Welcome Section -->
+  <div class="mb-8">
+    <div
+      class="bg-gradient-to-r from-indigo-600 to-pink-400 rounded-2xl p-8 text-white shadow-lg"
+    >
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+      >
+        <div class="flex-1">
+          <h1 class="text-3xl md:text-4xl font-bold mb-3">
+            Welcome {{ session['name'] }} to ContentForgeAI👋
+          </h1>
+          <p class="text-purple-100 text-lg mb-4">
+            Your AI-powered content creation suite. Generate short reels, blogs,
+            captions, and more in seconds.
+          </p>
+          <div class="flex items-center gap-2 text-purple-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+              />
+            </svg>
+            <span>Start creating amazing content today</span>
+          </div>
+        </div>
+        <div
+          class="w-32 h-32 bg-white bg-opacity-10 rounded-full flex items-center justify-center backdrop-blur-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-16 h-16 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Title -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">
+      What would you like to create?🤔
+    </h2>
+    <p class="text-gray-600">
+      Choose a tool below to start generating AI-powered content.
+    </p>
+  </div>
+  <!-- Feature Cards Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Short Reel Card -->
+    <div
+      class="bg-white rounded-lg overflow-hidden border-2 hover:border-purple-300 shadow-sm card-hover cursor-pointer"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div
+          class="sm:w-40 h-50 bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden"
+        >
+          <img
+            src="{{ url_for('static', filename='images/shortreel.png') }}"
+            alt="Short Reel"
+            class="w-full h-full object-contain"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex-1 p-6">
+          <h3
+            class="text-xl font-bold text-gray-900 mb-2 hover:text-[#6f4fdc] transition-colors"
+          >
+            Short Reel Generator
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            Instantly create engaging short reels from your ideas and transform
+            them into captivating visual stories.
+          </p>
+          <!-- url_for dynamically generate the url to this file based on its function name, so if the url change the function name identifies the new url -->
+          <a href="{{url_for('shortReelGen')}}">
+            <button
+              class="text-[#6f4fdc] hover:text-[#4f21e5] font-semibold flex items-center gap-2 group"
+            >
+              Get Started
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Generator Card -->
+    <div
+      class="bg-white rounded-lg overflow-hidden border-2 hover:border-purple-300 shadow-sm card-hover cursor-pointer"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div
+          class="sm:w-40 h-50 bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden"
+        >
+          <img
+            src="{{ url_for('static', filename='images/blogpic.png') }}"
+            alt="blog-pic"
+            class="w-full h-full object-contain px-3"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex-1 p-6">
+          <h3
+            class="text-xl font-bold text-gray-900 mb-2 hover:text-[#6f4fdc] transition-colors"
+          >
+            Blog Generator
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            Generate high-quality blog posts from your ideas with clear
+            structure, headings, and engaging content.
+          </p>
+          <a href="{{url_for('blogGenerator')}}">
+            <button
+              class="text-[#6f4fdc] hover:text-[#4f21e5] font-semibold flex items-center gap-2 group"
+            >
+              Get Started
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Captions Card -->
+    <div
+      class="bg-white rounded-lg overflow-hidden border-2 hover:border-purple-300 shadow-sm card-hover cursor-pointer"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div
+          class="sm:w-40 h-50 bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden"
+        >
+          <img
+            src="{{ url_for('static', filename='images/captionspic.png') }}"
+            alt="caption-pic"
+            class="w-full h-full object-contain px-3"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex-1 p-6">
+          <h3
+            class="text-xl font-bold text-gray-900 mb-2 hover:text-[#6f4fdc] transition-colors"
+          >
+            Caption Generator
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            Generate engaging captions from your ideas that connect with
+            audiences and enhance your content’s impact.
+          </p>
+          <a href="{{url_for('captionGenerator')}}">
+            <button
+              class="text-[#6f4fdc] hover:text-[#4f21e5] font-semibold flex items-center gap-2 group"
+            >
+              Get Started
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hashtags Card -->
+    <div
+      class="bg-white rounded-lg overflow-hidden border-2 hover:border-purple-300 shadow-sm card-hover cursor-pointer"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div
+          class="sm:w-40 h-50 bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden"
+        >
+          <img
+            src="{{ url_for('static', filename='images/hashtagpic.png') }}"
+            alt="hashtag-pic"
+            class="w-full h-full object-contain px-3"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex-1 p-6">
+          <h3
+            class="text-xl font-bold text-gray-900 mb-2 hover:text-[#6f4fdc] transition-colors"
+          >
+            Hashtag Generator
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            Discover trending and relevant hashtags to improve discoverability
+            and help your posts reach wider audiences.
+          </p>
+          <a href="{{url_for('hashtagGenerator')}}">
+            <button
+              class="text-[#6f4fdc] hover:text-[#4f21e5] font-semibold flex items-center gap-2 group"
+            >
+              Get Started
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Scripts Card -->
+    <div
+      class="bg-white rounded-lg overflow-hidden border-2 hover:border-purple-300 shadow-sm card-hover cursor-pointer"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div
+          class="sm:w-40 h-50 bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden"
+        >
+          <img
+            src="{{ url_for('static', filename='images/videoscripts.png') }}"
+            alt="video scripts"
+            class="w-full h-full object-contain px-3"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex-1 p-6">
+          <h3
+            class="text-xl font-bold text-gray-900 mb-2 hover:text-[#6f4fdc] transition-colors"
+          >
+            Video Script Generator
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            Generate engaging video scripts from your ideas with clear
+            structure, storytelling, and compelling narrative flow.
+          </p>
+          <a href="{{url_for('videoScriptsGen')}}">
+            <button
+              class="text-[#6f4fdc] hover:text-[#4f21e5] font-semibold flex items-center gap-2 group"
+            >
+              Get Started
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Tips Card -->
+  <div
+    class="mt-8 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 border-2 border-purple-200"
+  >
+    <div class="flex items-start gap-4">
+      <div
+        class="w-10 h-10 gradient-purple rounded-lg flex items-center justify-center flex-shrink-0 bg-[#050040]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5 text-white"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+          />
+        </svg>
+      </div>
+      <div>
+        <h3 class="font-semibold text-gray-900 mb-2">💡 Quick Tip</h3>
+        <p class="text-gray-700">
+          For best results, provide detailed descriptions in your prompts. The
+          more specific you are, the better the AI can understand and generate
+          content that matches your needs.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

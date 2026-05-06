@@ -1,0 +1,131 @@
+{% extends "baseDashboard.html" %} {% block title %} Hashtag Generator {%
+endblock %} {% block content %}
+
+<main class="flex-1 px-4 sm:px-6 lg:px-8 py-10">
+  <div class="w-full max-w-5xl m-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-6">
+      <div
+        class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="#fff"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+          />
+        </svg>
+      </div>
+
+      <div>
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-poppins">
+          Hashtag Generator
+        </h1>
+        <p class="text-gray-500 text-sm font-poppins">
+          Discover trending hashtags to boost your reach with - ContentForgeAI
+        </p>
+      </div>
+    </div>
+
+    <div>
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div
+        class="mt-6 mb-4 px-4 py-3 rounded-lg bg-red-100 border border-red-400 text-red-700 text-sm w-full"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- Form Card -->
+    <form action="{{ url_for('hashtagGenerator') }}" method="POST">
+      <div class="bg-white border rounded-xl shadow-sm p-6">
+        <label class="font-semibold text-gray-800" for="hashtag-topic">
+          Your Content Niche or Topic *
+        </label>
+
+        <input
+          class="w-full mt-3 p-3 rounded-lg border bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 font-poppins text-sm"
+          id="hashtag-topic"
+          name="hashtag_topic"
+          placeholder="e.g., 'Content Creation','Fitness', 'Travel', 'Photography'"
+        />
+
+        <p class="text-sm text-gray-500 mt-2 mb-4 font-poppins">
+          💡 Tip: Enter your main content category for targeted hashtags
+        </p>
+
+        <label class="font-semibold text-gray-800" for="keywords"> Keywords * </label>
+
+        <input
+          class="w-full mt-3 p-3 rounded-lg border bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 font-poppins text-sm"
+          id="keywords"
+          name="Keywords"
+          placeholder="e.g., 'technology, content, business, finance (comma separated)'"
+        />
+
+        <button
+          class="w-full mt-6 py-3 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-pink-400 hover:opacity-90 font-poppins"
+        >
+          ✨ Generate Hashtags
+        </button>
+      </div>
+    </form>
+
+    <!-- Result Box -->
+    {% if not hashtag_id %}
+    <div
+      class="mt-8 border-2 border-dashed border-gray-300 rounded-xl p-10 sm:p-16 text-center bg-white"
+    >
+      <div class="flex justify-center">
+        <div
+          class="w-16 h-16 flex items-center justify-center rounded-full bg-[#ebe9ff] mb-6"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-9 h-9"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#685be6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <h2 class="text-lg font-semibold text-gray-800 font-poppins">
+        Ready to boost your reach?
+      </h2>
+
+      <p class="text-gray-500 text-sm mt-6 font-poppins">
+        Enter you niche and keyword to generate a complete hashtag strategy
+      </p>
+    </div>
+    {% else %}
+    <div id="status-area" data-id="{{ hashtag_id }}">
+      <!-- Response will be provided by the javascript -->
+    </div>
+    {% endif %}
+  </div>
+</main>
+
+{% endblock%}
+
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/hashtagGenerator.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,9 @@
+flask
+flask_sqlalchemy
+psycopg2-binary
+bcrypt
+flask-login
+elevenlabs
+Flask-Migrate
+openai
+python-dotenv

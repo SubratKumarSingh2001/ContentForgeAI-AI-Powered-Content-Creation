@@ -1,0 +1,9 @@
+.env
+venv/
+node_modules/
+__pycache__/
+.DS_Store
+.vscode/
+reels/
+user_uploads_reelGen/
+
