@@ -23,6 +23,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True) #This ensure that UPLOAD_FOLDER not there then creates it automatically exist_ok=True if exist then ok move ahead
 
 #now we will connect the db instance with flask app and create all tables
 db.init_app(app)
@@ -207,4 +208,4 @@ def history() :
     return render_template('history.html', histories=all_history)
 
 if __name__ == '__main__' :
-    app.run(debug=True)
+    app.run()
