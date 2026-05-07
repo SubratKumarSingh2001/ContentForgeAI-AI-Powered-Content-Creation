@@ -6,8 +6,8 @@ def signIn() :
         return redirect(url_for('dashboard')) 
     
     if request.method == 'POST' :
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form.get('username').strip().lower()
+        password = request.form.get('password').strip()
         
         user = User.query.filter_by(username=username).first() #find the first matching data based on email
         if user and user.check_password(password) :
@@ -25,10 +25,10 @@ def signUp() :
         return redirect(url_for('dashboard'))
 
     if request.method == 'POST' :
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm-password')
+        username = request.form.get('username').strip().lower()
+        email = request.form.get('email').strip().lower()
+        password = request.form.get('password').strip()
+        confirm_password = request.form.get('confirm-password').strip()
 
         if password != confirm_password :
             flash("Password Doesn't Match")
