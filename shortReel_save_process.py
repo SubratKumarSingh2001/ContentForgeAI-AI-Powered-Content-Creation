@@ -28,20 +28,26 @@ def process_reel_files(rec_id, app) :
         
         folder = os.path.join(app.config['UPLOAD_FOLDER'], rec_id)
         try :
+            print("STEP 1 - Before TTS")
             #Step:1 User_Description -> audio conversion
             with open(os.path.join(folder, "user_desc.txt"), 'r') as f :
                 text = f.read()
             text_to_speech_file(text, folder) 
 
+            print("STEP 2 - After TTS")
             #Step:2 Reel_Generation
             reel_generate_ffmpeg(folder, rec_id)
+
+            print("STEP 3 - After FFmpeg")
         
             reel.set_status('completed')
             reel.set_video_path(f'static/reels/{rec_id}/reel.mp4')
             reel.set_created_at(datetime.now().strftime("%d %b %Y, %I:%M %p"))
+            print("STATUS UPDATED TO COMPLETED")
         except Exception as e:
             print("Error: ", e)
             reel.set_status('failed')
+            print("STATUS UPDATED TO FAILED")
         finally :
             db.session.commit()
     
