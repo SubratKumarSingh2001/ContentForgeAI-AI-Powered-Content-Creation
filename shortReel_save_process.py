@@ -71,8 +71,10 @@ def createReel() :
             return redirect(url_for('shortReelGen'))
         if file : 
             filename = secure_filename(file.filename)
-            if not(os.path.exists(os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id))) :
-                os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id))
+            os.makedirs(
+                os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id),
+                exist_ok=True
+            )
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id, filename)) #current_app give access to app.py instance
             input_files.append(filename)
         
