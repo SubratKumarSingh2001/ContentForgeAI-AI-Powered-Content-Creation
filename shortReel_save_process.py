@@ -3,6 +3,7 @@ from shortReel_generate_reel import text_to_speech_file, reel_generate_ffmpeg
 from werkzeug.utils import secure_filename
 from models import db, Reel
 from datetime import datetime
+from PIL import Image
 import threading
 import time
 import os
@@ -81,7 +82,14 @@ def createReel() :
                 os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id),
                 exist_ok=True
             )
-            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id, filename)) #current_app give access to app.py instance
+            #Want to store the compressed image files 
+            save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], rec_id, filename)
+            img = Image.open(file) 
+            #Resize 
+            img.thumbnail((720,1280))
+            #compress and save file
+            img.save(save_path, optimize=True, quality=70)
+
             input_files.append(filename)
         
         #Capture the text description and save it to the file 

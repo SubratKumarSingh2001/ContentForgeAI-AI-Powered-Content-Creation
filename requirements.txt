@@ -8,3 +8,4 @@ Flask-Migrate
 openai
 python-dotenv
 gunicorn
+Pillow

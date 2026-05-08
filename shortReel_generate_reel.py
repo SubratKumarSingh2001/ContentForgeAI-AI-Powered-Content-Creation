@@ -38,7 +38,7 @@ def reel_generate_ffmpeg(folder, rec_id) :
     print("INPUT:", f"{folder}/input.txt")
     print("EXISTS:", os.path.exists(f"{folder}/input.txt"))
 
-    command = f'''ffmpeg -f concat -safe 0 -i {folder}/input.txt -i {folder}/audio.mp3 -vf "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:black" -c:v libx264 -c:a aac -shortest -r 30 -pix_fmt yuv420p static/reels/{rec_id}/reel.mp4
+    command = f'''ffmpeg -f concat -safe 0 -i {folder}/input.txt -i {folder}/audio.mp3 -vf "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:black" -c:v libx264 -preset ultrafast -c:a aac -shortest -r 24 -pix_fmt yuv420p static/reels/{rec_id}/reel.mp4
     '''
     subprocess.run(command, shell=True, check=True, timeout=300) #shell: ensure this line runs as a shell command i.e as a string(command is string) and check: ensure command doesn't throw non-zero error
 
